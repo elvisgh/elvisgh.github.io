@@ -1,100 +1,168 @@
-# Hydrogen
-轻盈、干净
+# Hydeout
 
-跟随她的脚步，开始你的博客之旅
+Hydeout updates the original [Hyde](https://github.com/poole/hyde)
+theme for [Jekyll](http://jekyllrb.com) 3.x and adds new functionality.
 
-语言：简体中文 | [English](README-en.md)
+![Desktop](/_screenshots/1.png?raw=true)
+<img alt="Mobile home page" src="/_screenshots/2.png?raw=true" width="300px" />
+<img alt="Mobile post page" src="/_screenshots/3.png?raw=true" width="300px" />
 
-![hydrogen](/theme/logo-h.svg)
+### Usage
 
-~~点点~~Star~~来一个好吗！秋梨膏！！~~
+Hydeout is available as the `jekyll-theme-hydeout` Ruby Gem.
+Add `gem "jekyll-theme-hydeout", "~> 3.4"` to your Gemfile and run
+`bundle install`.
 
-# #快速开始
+If you're installing on Github pages, you may also have to add
+`remote_theme: fongandrew/hydeout` to your `_config.yml`. [See the Github
+instructions for more details.](https://help.github.com/articles/adding-a-jekyll-theme-to-your-github-pages-site/)
 
-![hydrogen](/theme/a-h.png)
-
-## #准备
-
-打开主题根目录下的`_config.yml`
-
-根据需求修改以下选项：
-
-`title` : 更改你的博客名字
-
-`description` : 更改你的博客描述
-
-`keywords` : 博客关键词(SEO相关)
-
-`baseurl` : 博客所在的目录文件夹，开头需带上`/`，如果为根目录请留空(建议将博客放置在根目录)
-
-`url` : 你的域名，如`atlinker.cn`无需加`http/https://`
-
-`bulidtime` : 博客建立时的时间戳，填写后将自动计算博客建立时间并显示在页脚. [日期转时间戳](https://tool.lu/timestamp/)
-
-`paginate` : 主页中显示的最大文章数，超过设定的数值文章自动归入下一页
-
-`background` : 博客首页主题图片路径
-
-`theme_color` : 博客顶部栏颜色，填颜色代码**但不要带上#号**
-
-`MathJax` : 是否开启MathJax(布尔值)
-
-`author` : 作者名
-
-> 开发者选项
->> `PJAX` : PJAX无刷新加载(布尔值)
-
-## #设置域名
-
-修改根目录下的CNAME文件为你的域名即可
-
-#### 关于主题的基本设置已经完毕~
-
----
-
-## #友链添加
-
-打开`_data`目录下的`friends.yml`文件，根据文件中模板新添代码即可
-
----
-
-## #文章置顶
-
-在文章Front Matter添加stickie: true即可
-
-如：
+Hydeout uses pagination, so if you have an `index.md`, you'll need to swap
+it with an `index.html` that uses the `index` layout:
 
 ```
- ---
- layout: post
- title: Hi
- stickie: true
- ---
+---
+layout: index
+title: Home
+---
 ```
 
-## #评论
+You'll also need to add a setting to `_config.yml` telling Jekyll how many posts
+to include per page (e.g. `paginate: 5`).
 
-#### #前提
+### Keep It Simple
 
-> 必须确定已阅读[Valine](https://valine.js.org/quickstart.html)文档
+In keeping with the original Hyde theme, Hydeout aims to keep the overall
+design lightweight and plugin-free. JavaScript is currently limited only
+to Disqus and Google Analytics (and is only loaded if you provide configuration
+variables).
 
-配置文件:
+Hydeout makes heavy use of Flexbox in its CSS. If Flexbox is not available,
+the CSS degrades into a single column layout.
 
-`_data/social.yml` : 填写app id和key以及评论的相关信息
+### Customization
 
-`_includes/comments.html` : 评论设置
+Hydeout replaces Hyde's class-based theming with the use
+of the following SASS variables:
 
-确保配置无误后修改`_data/social.yml`中的`enable`值由`false`改为`ture`即可
+```scss
+$sidebar-bg-color: #202020 !default;
+$sidebar-fg-color: white !default;
+$sidebar-sticky: true !default;
+$layout-reverse: false !default;
+$link-color: #268bd2 !default;
+```
 
-## #写在最后
+To override these variables, create your own `assets/css/main.scss` file.
+Define your own variables, then import in Hydeout's SCSS, like so:
 
-请花10分钟时间**认真**阅读文档，如还有疑难之处，请提[issues](https://github.com/link9596/hydrogen/issues/new)，我会尽力帮忙
+```scss
+---
+# Jekyll needs front matter for SCSS files
+---
 
-如使用过程有任何疑难Bug，也请提出[issues](https://github.com/link9596/hydrogen/issues/new)！ :+1:
+$sidebar-bg-color: #ac4142;
+$link-color: #ac4142;
+$sidebar-sticky: false;
+@import "hydeout";
+```
 
-最后，如果喜欢~请给项目点个star:wink:(点star的dalao都超级靓的)
+See the [_variables](_sass/hydeout/_variables.scss) file for other variables
+you can override.
 
-![hydrogen](/theme/author.svg)
+You can see the full set of partials you can replace in the
+[`_includes`](_includes) folder, but there are a few worth noting:
 
-![](https://img.shields.io/github/repo-size/link9596/hydrogen?color=%23F8BBD0)
-![](https://img.shields.io/github/release/link9596/hydrogen?color=%235C6BC0&label=Version)
+* `_includes/copyright.html` - Insert your own copyright here.
+
+* `_includes/custom-head.html` - Insert custom head tags (e.g. to load your
+  own stylesheets)
+
+* `_includes/custom-foot.html` - Insert custom elements at the end of the
+  body (e.g. for custom JS)
+
+* `_includes/custom-nav-links.html` - Additional nav links to insert at the
+  end of the list of links in the sidebar.
+
+  Pro-tip: The `nav`s in the sidebar are flexboxes. Use the `order` property
+  to order your links.
+
+* `_includes/custom-icon-links.html`- Additional icon links to insert at the
+  end of the icon links at the bottom of the sidebar. You can use the `order`
+  property to re-order.
+
+* `_includes/favicons.html` - Replace references to `favicon.ico` and
+  `favicon.png` with your own favicons references.
+
+* `_includes/font-includes.html` - The Abril Fatface font used for the site
+  title is loaded here. If you're overriding that font in the CSS, be sure
+  to also remove the font load reference here.
+
+### New Features
+
+* Hydeout adds a new tags page (accessible in the sidebar). Just create a
+  new page with the tags layout:
+
+  ```
+  ---
+  layout: tags
+  title: Tags
+  ---
+  ```
+
+* Hydeout adds a new "category" layout for dedicated category pages.
+  Category pages are automatically added to the sidebar. All other pages
+  must have `sidebar_link: true` in their front matter to show up in
+  the sidebar. To create a category page, use the `category` layout"
+
+  ```
+  ---
+  layout: category
+  title: My Category
+  ---
+
+  Description of "My Category"
+  ```
+
+* You can control how pages are sorted by using the `sidebar_sort_order`
+  parameter in the front matter. This works for both category and non-category
+  pages, although non-category pages will always come first. Take a look at
+  [`_includes/sidebar-nav-links.html`](./_includes/sidebar-nav-links.html) if
+  you want to customize this behavior.
+
+  ```
+  ---
+  layout: page
+  title: My page
+  sidebar_sort_order: 123
+  ---
+
+  Some content.
+  ```
+
+* A simple redirect-to-Google search is available. Just create a page with
+  the `search` layout.
+
+  ```
+  ---
+  layout: search
+  title: Google Search
+  ---
+  ```
+
+* Disqus integration is ready out of the box. Just add the following to
+  your config file:
+
+  ```yaml
+  disqus:
+    shortname: my-disqus-shortname
+  ```
+
+  If you don't want Disqus or want to use something else, override
+  `comments.html`.
+
+* For Google Analytics support, define a `google_analytics` variable with
+  your property ID in your config file.
+
+There's also a bunch of minor tweaks and adjustments throughout the
+theme. Hope this works for you!
