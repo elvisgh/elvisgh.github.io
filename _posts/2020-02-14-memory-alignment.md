@@ -1,6 +1,6 @@
 ---
 layout: post
-title: [转]从硬件到语言，详解C++的内存对齐（memory alignment）
+title: 从硬件到语言，详解C++的内存对齐（memory alignment）
 tags: c++ 数据结构
 categories: 数据结构
 ---
